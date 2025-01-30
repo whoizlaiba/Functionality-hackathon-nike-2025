@@ -202,13 +202,13 @@ export default function Navbar() {
           {isWishOpen && <WishList />}
 
           <BiShoppingBag
-            className="text-gray-700  md:h-[24px] sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] cursor-pointer hover:text-black z-10 absolute top-20 right-7 sm:static sm:top-0 sm:right-0"
+            className="text-gray-700  md:h-[24px] sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] cursor-pointer hover:text-black z-10 absolute top-20 right-28 sm:static sm:top-0 sm:right-0"
             onClick={() => setDisplay(!display)}
           />
           {display && <SideCart />}
           {cartItemCount > 0 && (
             <sup>
-              <div className="absolute sm:top-0 sm:right-0 -right-3 top-3 w-4 h-4 -mt-1 font-semibold text-black text-xs flex justify-center items-center rounded-full z-10 ">
+              <div className="absolute sm:top-0 sm:right-0 right-16 top-3 w-4 h-4 -mt-1 font-semibold text-black text-xs flex justify-center items-center rounded-full z-10 ">
                 {cartItemCount}
               </div>
             </sup>
@@ -264,14 +264,6 @@ export default function Navbar() {
     </header>
   );
 }
-
-
-
-
-
-
-
-
 
 
 
