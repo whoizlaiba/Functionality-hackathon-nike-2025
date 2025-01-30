@@ -87,13 +87,15 @@ export default function Navbar() {
           className="w-[24px] h-[24px]"
         />
         <div className="flex md:gap-4 sm:gap-3 gap-2  items-center">
-          <Link href="/products" className="hover:text-gray-800">
+          <Link href="#" className="hover:text-gray-800">
             Find Link Store
           </Link>
           <Link href="/contact" className="hover:text-gray-800">
             Help
           </Link>
-         
+          <Link href="" className="hover:text-gray-800">
+            Join Us
+          </Link>
           {/* <Link href="/signin" className="hover:text-gray-800">Sign In</Link> */}
           <SignedOut>
             <SignInButton />
@@ -262,6 +264,14 @@ export default function Navbar() {
     </header>
   );
 }
+
+
+
+
+
+
+
+
 
 
 
