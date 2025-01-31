@@ -11,6 +11,7 @@ import { client } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
 import { CartContext } from './context'
 
+// Assuming you have an API or a Sanity client to fetch product data
 type Products = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image: any;
@@ -25,7 +26,7 @@ export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState('')
   const [searchResults, setSearchResults] = useState<Products[]>([])
   const [loading, setLoading] = useState(false)
-  const { cart } = useContext(CartContext);
+  const { cart } = useContext(CartContext); // Access the cart from context
   const [display, setDisplay] = useState(false);
   const cartItemCount = cart.reduce(
     (total: number, item: { quantity: number }) => total + item.quantity,
@@ -33,23 +34,26 @@ export default function Navbar() {
   );
 
   useEffect(() => {
+    // If the search term is not empty, we fetch the data
     const fetchSearchResults = async () => {
       if (searchTerm.trim() === '') {
-        setSearchResults([])
+        setSearchResults([]) // Clear results if input is empty
         return
       }
 
       setLoading(true)
 
       try {
-        const query = `*[_type == "product" && productName match '${searchTerm}*']`
+        // Adjust query to search products that start with the typed letter or term
+        const query = `*[_type == "product" && productName match '${searchTerm}*']` // Sanity query filtering products alphabetically by name
         const products = await client.fetch(query)
 
+        // Optionally, sort the results alphabetically (if needed)
         const sortedProducts = products.sort((a: Products, b: Products) =>
           a.productName.localeCompare(b.productName)
         )
 
-        setSearchResults(sortedProducts)
+        setSearchResults(sortedProducts) // Update search results
       } catch (error) {
         console.error('Error fetching search results:', error)
       } finally {
@@ -57,11 +61,12 @@ export default function Navbar() {
       }
     }
 
+    // Debouncing the input
     const timeoutId = setTimeout(() => {
       fetchSearchResults()
-    }, 300)
+    }, 300)  // 300ms debounce delay
 
-    return () => clearTimeout(timeoutId)
+    return () => clearTimeout(timeoutId) // Cleanup timeout on every searchTerm change
   }, [searchTerm])
 
   return (
@@ -101,7 +106,7 @@ export default function Navbar() {
         </nav>
 
         {/* Right section (Search, Wishlist, Cart) */}
-        <div className="flex items-center gap-4 mt-4 md:mt-0 relative">
+        <div className="flex items-center gap-4 mt-4 md:mt-0">
           {/* Search Bar */}
           <div className="relative hidden md:block">
             <input
@@ -112,6 +117,7 @@ export default function Navbar() {
               className="border border-gray-300 rounded-full pl-4 pr-10 py-2 text-sm focus:outline-none"
             />
             <FaSearch className="absolute right-3 top-2.5 text-gray-500" />
+            {/* Show search results if any */}
             {searchTerm && (
               <div className="absolute top-full left-0 w-full bg-white shadow-lg max-h-[200px] overflow-y-auto mt-2 rounded-md">
                 {loading ? (
@@ -136,30 +142,23 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Wishlist Icon */}
-          <div className="relative">
-            <FaRegHeart className="text-gray-700 md:h-[24px] sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] cursor-pointer hover:text-black" />
-            {/* Heart Count */}
-            {cartItemCount > 0 && (
-              <div className="absolute top-0 right-0 w-4 h-4 font-semibold text-blue-800 text-xs flex justify-center items-center rounded-full">
-                {cartItemCount}
-              </div>
-            )}
-          </div>
-
-          {/* Cart Icon */}
-          <div className="relative">
-            <BiShoppingBag className="text-gray-700 md:h-[24px] sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] cursor-pointer hover:text-black" onClick={() => setDisplay(!display)} />
+         
+          <FaRegHeart className="text-gray-700 md:h-[24px] sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] cursor-pointer hover:text-black" />
+          
+             
+            <BiShoppingBag className="text-gray-700  md:h-[24px] sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] cursor-pointer hover:text-black"  onClick={() => setDisplay(!display)}/>
             {display && <SideCart />}
-            {cartItemCount > 0 && (
-              <div className="absolute top-0 right-0 w-4 h-4 font-semibold text-blue-800 text-xs flex justify-center items-center rounded-full">
-                {cartItemCount}
-              </div>
-            )}
-          </div>
+              {cartItemCount > 0 && (
+                <sup>
+                  <div className="absolute top-0 right-0 w-4 h-4  font-semibold text-blue-800 text-xs flex justify-center items-center rounded-full ">
+                    {cartItemCount}
+                  </div>
+                </sup>
+              )}
+
+          
         </div>
       </div>
-
       {/* Mobile Search Bar */}
       <div className="block md:hidden px-6 mt-2">
         <div className="relative">
@@ -171,6 +170,7 @@ export default function Navbar() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <FaSearch className="absolute right-3 top-2.5 text-gray-500" />
+          {/* Show search results on mobile as well */}
           {searchTerm && (
             <div className="absolute top-full left-0 w-full bg-white shadow-lg max-h-[200px] overflow-y-auto mt-2 rounded-md">
               {loading ? (
@@ -198,3 +198,23 @@ export default function Navbar() {
     </header>
   )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
