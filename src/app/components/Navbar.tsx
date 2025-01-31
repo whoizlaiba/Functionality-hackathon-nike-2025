@@ -188,12 +188,12 @@ export default function Navbar() {
           </div>
 
           <FaRegHeart
-            className="text-gray-700 md:h-[24px] sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] cursor-pointer hover:text-black absolute top-20 right-16 sm:static sm:top-0 sm:right-0"
+            className="text-gray-700 md:h-[24px] sm:w-[20px] sm:h-[20px] w-[16px] h-[16px] cursor-pointer hover:text-black absolute top-20 right-72 sm:static sm:top-0 sm:right-0"
             onClick={() => setIsWishOpen(!isWishOpen)}
           />
           {wishItemCount > 0 && (
             <sup>
-              <div className="absolute sm:top-0 sm:right-0 w-4 h-4  right-2  top-2  font-semibold text-black text-xs flex justify-center items-center rounded-full">
+              <div className="absolute sm:top-0 sm:right-0 w-4 h-4  right-56 top-2  font-semibold text-black text-xs flex justify-center items-center rounded-full">
                 {wishItemCount}
               </div>
             </sup>
